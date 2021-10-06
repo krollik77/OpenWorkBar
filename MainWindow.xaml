@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:OpenWorkBar"
         mc:Ignorable="d"
         Title="MainWindow" Height="715" Width="1390" 
@@ -11,6 +12,71 @@
         WindowStyle="None"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen" Background="{x:Null}" Foreground="{x:Null}">
+
+    <Window.Resources>
+        <!-- Стиль для кнопки внутри ComboBox -->
+        <Style x:Key="PanelExitMiniMaxiBtn" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Background" Value="#FFDCDFED"/>
+            <Setter Property="Height" Value="25"/>
+
+            <Setter Property="Foreground" Value="Black"/>
+
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="1" BorderBrush="{x:Null}" CornerRadius="5"
+                                Background="{TemplateBinding Background}" HorizontalAlignment="Right" Margin="2 0 0 0">
+                            <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3"/>
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Триггер для изменения цвета кнопки при наведении-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFBCBECC"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Стиль для кнопки внутри ComboBox -->
+            <Style x:Key="PanelExitBtn" TargetType="Button">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Background" Value="#FFDCDFED"/>
+                <Setter Property="Height" Value="25"/>
+
+                <Setter Property="Foreground" Value="Black"/>
+
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="border" BorderThickness="1" BorderBrush="White" CornerRadius="5"
+                                Background="{TemplateBinding Background}" HorizontalAlignment="Right" Margin="2 0 0 0">
+                                <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3"/>
+
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <!-- Триггер для изменения цвета кнопки при наведении-->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                    <Setter Property="Background" Value="Red"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+
+            </Style>
+
+    </Window.Resources>
+
+
     <Grid>
         <!--/ BackGround Color-->
         <Border CornerRadius="5" Background="#FFBCBECC"/>
@@ -20,14 +86,37 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
+            <!--// ToolBar Logo //-->
             <Grid x:Name="ToolBar" Grid.Row="0" Background="Transparent" >
                 <Border  CornerRadius="5 5 0 0" Background="#FFDCDFED" />
                 <Polygon Fill="#FFBCBECC" 
-                 Points="100, 0, 115, 10, 1275, 10, 1290, 0" Opacity="0.9" VerticalAlignment="Top"/>
- 
+                 Points="100, 0,112, 9, 115, 10, 1275, 10, 1278, 9, 1290, 0" Opacity="0.9" VerticalAlignment="Top"/>
+
                 <Image Name="LogoAgitek" Source="Source/logo.jpeg" HorizontalAlignment="Left" Width="100" />
-            </Grid>
+            
+                <!--// ToolBar Exit+minimized //-->
+                <Grid Height="25" Width="104" VerticalAlignment="Top" HorizontalAlignment="Right" >
+                    <StackPanel Orientation="Horizontal">
+                        <Button Margin="4 0 0 0" Style="{StaticResource PanelExitMiniMaxiBtn}">
+
+                            <TextBlock Text=" ? "/>
+                        </Button>
+                        <Button Style="{StaticResource PanelExitMiniMaxiBtn}">
+
+                            <materialDesign:PackIcon Kind="WindowMinimize" />
+                        </Button>
+                        <Button Style="{StaticResource PanelExitMiniMaxiBtn}">
+                            
+                            <materialDesign:PackIcon Kind="WindowMaximize" />
+                        </Button>
+                        <Button Style="{StaticResource PanelExitBtn}">
+
+                            <materialDesign:PackIcon Kind="Close" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+        </Grid>
          </Grid>
 
             
