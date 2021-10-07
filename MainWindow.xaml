@@ -363,6 +363,15 @@
                                         </TreeViewItem>
                                         <TreeViewItem Header="Level 2.3" />
                                     </TreeViewItem>
+                                    
+                                    <TreeViewItem Header="Level 2" IsExpanded="True">
+                                        <TreeViewItem Header="Level 2.1" />
+                                        <TreeViewItem Header="Level 2.2" IsExpanded="True">
+                                            <TreeViewItem Header="Level 2.2.1" />
+                                            <TreeViewItem Header="Level 2.2.2" />
+                                        </TreeViewItem>
+                                        <TreeViewItem Header="Level 2.3" />
+                                    </TreeViewItem>
                                 </TreeView>
                             </StackPanel>
 
