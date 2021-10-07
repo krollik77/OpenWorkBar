@@ -14,13 +14,13 @@
         WindowStartupLocation="CenterScreen" Background="{x:Null}" Foreground="{x:Null}">
 
     <Window.Resources>
-        <!-- Стиль для кнопки внутри ComboBox -->
+        <!-- Стиль для кнопки внутри ToolBar -->
         <Style x:Key="PanelExitMiniMaxiBtn" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Background" Value="#FFDCDFED"/>
             <Setter Property="Height" Value="25"/>
 
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="#FF868698"/>
 
             <Setter Property="Template" >
                 <Setter.Value>
@@ -42,37 +42,40 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <!-- Стиль для кнопки внутри ComboBox -->
-            <Style x:Key="PanelExitBtn" TargetType="Button">
-                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                <Setter Property="Background" Value="#FFDCDFED"/>
-                <Setter Property="Height" Value="25"/>
+        <!-- Стиль для кнопки Exit внутри ToolBar -->
+        <Style x:Key="PanelExitBtn" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Background" Value="#FFDCDFED"/>
+            <Setter Property="Height" Value="25"/>
 
-                <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Foreground" Value="#FF868698"/>
 
-                <Setter Property="Template" >
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <Border Name="border" BorderThickness="1" BorderBrush="White" CornerRadius="5"
+            <Setter Property="Template" >
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="1" CornerRadius="5"
                                 Background="{TemplateBinding Background}" HorizontalAlignment="Right" Margin="2 0 0 0">
-                                <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3"/>
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="#FF868698" Opacity="0.5"/>
+                            </Border.BorderBrush>
+                            <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3"/>
 
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <!-- Триггер для изменения цвета кнопки при наведении-->
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Opacity" Value="0.6"/>
-                                    <Setter Property="Background" Value="Red"/>
-                                    <Setter Property="Foreground" Value="White"/>
-                                </Trigger>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- Триггер для изменения цвета кнопки при наведении-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.6"/>
+                                <Setter Property="Background" Value="Red"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
 
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
 
 
-            </Style>
+        </Style>
 
     </Window.Resources>
 
@@ -86,42 +89,50 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1190"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
             <!--// ToolBar Logo //-->
-            <Grid x:Name="ToolBar" Grid.Row="0" Background="Transparent" >
+            <Grid x:Name="ToolBar" Grid.Row="0" Grid.ColumnSpan ="3" Background="Transparent" MouseDown="ToolBar_MouseDown" >
                 <Border  CornerRadius="5 5 0 0" Background="#FFDCDFED" />
-                <Polygon Fill="#FFBCBECC" 
-                 Points="100, 0,112, 9, 115, 10, 1275, 10, 1278, 9, 1290, 0" Opacity="0.9" VerticalAlignment="Top"/>
 
                 <Image Name="LogoAgitek" Source="Source/logo.jpeg" HorizontalAlignment="Left" Width="100" />
-            
+
+                <Grid Width="1190" Height="10" Grid.Column="1" VerticalAlignment="Top" >
+                    <Polygon Fill="#FFBCBECC"  
+                 Points="0, 0,12, 9, 15, 10, 1175, 10, 1178, 9, 1190, 0" Opacity="0.9" VerticalAlignment="Top" HorizontalAlignment="Center" />
+                </Grid>
+
                 <!--// ToolBar Exit+minimized //-->
                 <Grid Height="25" Width="104" VerticalAlignment="Top" HorizontalAlignment="Right" >
                     <StackPanel Orientation="Horizontal">
-                        <Button Margin="4 0 0 0" Style="{StaticResource PanelExitMiniMaxiBtn}">
+                        <Button Name="Question" Margin="4 0 0 0" Style="{StaticResource PanelExitMiniMaxiBtn}">
 
                             <TextBlock Text=" ? "/>
                         </Button>
-                        <Button Style="{StaticResource PanelExitMiniMaxiBtn}">
+                        <Button Name="Mini" Style="{StaticResource PanelExitMiniMaxiBtn}" Click="Mini_Click">
 
                             <materialDesign:PackIcon Kind="WindowMinimize" />
                         </Button>
-                        <Button Style="{StaticResource PanelExitMiniMaxiBtn}">
-                            
+                        <Button Name="Maxi" Style="{StaticResource PanelExitMiniMaxiBtn}" Click="Maxi_Click">
+
                             <materialDesign:PackIcon Kind="WindowMaximize" />
                         </Button>
-                        <Button Style="{StaticResource PanelExitBtn}">
+                        <Button Name="Exit" Style="{StaticResource PanelExitBtn}" Click="Exit_Click">
 
                             <materialDesign:PackIcon Kind="Close" />
                         </Button>
                     </StackPanel>
                 </Grid>
 
+            </Grid>
         </Grid>
-         </Grid>
 
-            
-                       
-       
+
+
+
 
 
         <Grid  >
@@ -129,44 +140,399 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="25"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="660*"/>
             </Grid.RowDefinitions>
 
             <Border Grid.Row="1" Grid.RowSpan="2" CornerRadius="0 0 5 5" Background="#FFDCDFED" />
+            <!--// Верия сборки //-->
+            <Grid Grid.Row="2" Height="25" Width="70" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 7 2">
+                    <TextBlock Text=" v. 1.0.1 " 
+                               Foreground="#FF868698" 
+                               FontStyle="Italic" 
+                               TextDecorations="{x:Null}" 
+                               FontSize="10" 
+                               FontFamily="Microsoft JhengHei UI"/>
+                </StackPanel>
+            </Grid>
+            <!--// Верия сборки //-->
+            <Grid Grid.Row="2" Height="25" Width="auto" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
+                <StackPanel Orientation="Horizontal">
+                    <Menu
+                         IsMainMenu="True">
+                        <MenuItem
+                            Header="_File">
+                            <MenuItem
+                                  Header="Save" >
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                          Kind="ContentSave" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem
+                                 Header="Save As.." />
+                            <MenuItem
+      Header="Exit"
+      InputGestureText="Ctrl+E">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+          Kind="ExitToApp" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem
+      Header="Excellent"
+      IsCheckable="True"
+      IsChecked="True" />
+                            <MenuItem
+      Header="Rubbish"
+      IsCheckable="True" />
+                            <MenuItem
+      Header="Dig Deeper"
+      InputGestureText="Ctrl+D">
+                                <MenuItem
+        Header="Enlightenment?"
+        IsCheckable="True" />
+                                <MenuItem
+        Header="Disappointment"
+        IsCheckable="True" />
+                            </MenuItem>
+                            <MenuItem
+      Header="Look Deeper"
+      InputGestureText="Ctrl+D">
+                                <MenuItem
+        Header="Plain" />
+                                <MenuItem
+        Header="Ice Cream" />
+                            </MenuItem>
+                        </MenuItem>
+
+                        <MenuItem
+                            Header="_Settings">
+                            <MenuItem
+                               Header="_Cut"
+                               Command="Cut">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                         Kind="ContentCut" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem
+                             Header="_Copy"
+                             Command="Copy">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                          Kind="ContentCopy" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem
+                             Header="_Paste"
+                               Command="Paste">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                        Kind="ContentPaste" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem
+                            Header="_Tools">
+                            <MenuItem
+                               Header="_Cut"
+                               Command="Cut">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                         Kind="ContentCut" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem
+                             Header="_Copy"
+                             Command="Copy">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                          Kind="ContentCopy" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem
+                             Header="_Paste"
+                               Command="Paste">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                        Kind="ContentPaste" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </MenuItem>
+
+                        <MenuItem
+                            Header="_View">
+                            <MenuItem
+                               Header="_Cut"
+                               Command="Cut">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                         Kind="ContentCut" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem
+                             Header="_Copy"
+                             Command="Copy">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                          Kind="ContentCopy" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem
+                             Header="_File"
+                               Command="Paste">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon
+                                        Kind="ContentPaste" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </MenuItem>
+                    </Menu>
+                </StackPanel>
+            </Grid>
         </Grid>
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="65"/>
-                <RowDefinition Height="580"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="615*"/>
+                <RowDefinition Height="45*"/>
+
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="310"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
 
 
-            <Grid Grid.Row="1">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="315"/>
-                    <ColumnDefinition Width="1075"/>
-
+            <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
+            -->
+            <!--// Левыя панель управленя Test Steps//-->
+            <DockPanel Grid.Row="1" LastChildFill="True">
 
-            </Grid>
+                <!--// Правая панель Test //-->
+                <Grid DockPanel.Dock="Bottom">
+                    <Border Name="Test" Background="White" CornerRadius="5" Margin="4 2 4 4" Visibility="Visible">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="542*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" CornerRadius="5 5 0 0" Background="#FFDCDFED">
+                                <StackPanel HorizontalAlignment="Left" Margin="5,0,0,0">
+                                    <TextBlock Text="Test" Foreground="#FF5C9BFA" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 5" FontFamily="Microsoft YaHei UI"/>
+                                </StackPanel>
+                            </Border>
+
+                        </Grid>
+                    </Border>
+                </Grid>
+                
+
+                <!--// Левыя панель управленя Test Steps//-->
+                <Grid >
+                    <Border Name="TestSteps"  Background="White" CornerRadius="5" Margin="4 4 2 4" Visibility="Hidden">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="542*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" CornerRadius="5 5 0 0" Background="#FFDCDFED">
+                                <StackPanel HorizontalAlignment="Left" Margin="5,0,0,0">
+                                    <TextBlock Text="Test Steps" Foreground="#FF5C9BFA" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 5" FontFamily="Microsoft YaHei UI"/>
+                                </StackPanel>
+                            </Border>
+
+                            <StackPanel Grid.Row="2">
+                                <TreeView
+  MinWidth="220">
+                                    <TreeViewItem
+    Header="Fruit">
+                                        <TreeViewItem>
+                                            <TreeViewItem.Header>
+                                                <StackPanel
+          Orientation="Horizontal">
+                                                    <Viewbox
+            Width="16"
+            Height="16">
+                                                        <Canvas
+              Width="24"
+              Height="24">
+                                                            <Path
+                Data="M20,10C22,13 17,22 15,22C13,22 13,21 12,21C11,21 11,22 9,22C7,22 2,13 4,10C6,7 9,7 11,8V5C5.38,8.07 4.11,3.78 4.11,3.78C4.11,3.78 6.77,0.19 11,5V3H13V8C15,7 18,7 20,10Z"
+                Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Foreground}" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBlock
+            Margin="8 0 0 0">
+          Apple
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </TreeViewItem.Header>
+                                        </TreeViewItem>
+                                        <TreeViewItem
+      Header="Banana" />
+                                        <TreeViewItem
+      Header="Grape">
+                                            <TextBlock>
+        <Run
+          Text="Grapes for us" />
+                                            </TextBlock>
+                                        </TreeViewItem>
+                                        <TreeViewItem
+      Header="Peach" />
+                                        <TreeViewItem
+      Header="Pear" />
+                                        <TreeViewItem
+      Header="Strawberry" />
+                                    </TreeViewItem>
+                                    <TreeViewItem
+    Header="OS"
+    IsExpanded="True">
+                                        <TreeViewItem
+      Header="Amiga" />
+                                        <TreeViewItem>
+                                            <TreeViewItem.Header>
+                                                <StackPanel
+          Orientation="Horizontal">
+                                                    <Viewbox
+            Width="16"
+            Height="16">
+                                                        <Canvas
+              Width="24"
+              Height="24">
+                                                            <Path
+                Data="M15,5H14V4H15M10,5H9V4H10M15.53,2.16L16.84,0.85C17.03,0.66 17.03,0.34 16.84,0.14C16.64,-0.05 16.32,-0.05 16.13,0.14L14.65,1.62C13.85,1.23 12.95,1 12,1C11.04,1 10.14,1.23 9.34,1.63L7.85,0.14C7.66,-0.05 7.34,-0.05 7.15,0.14C6.95,0.34 6.95,0.66 7.15,0.85L8.46,2.16C6.97,3.26 6,5 6,7H18C18,5 17,3.25 15.53,2.16M20.5,8A1.5,1.5 0 0,0 19,9.5V16.5A1.5,1.5 0 0,0 20.5,18A1.5,1.5 0 0,0 22,16.5V9.5A1.5,1.5 0 0,0 20.5,8M3.5,8A1.5,1.5 0 0,0 2,9.5V16.5A1.5,1.5 0 0,0 3.5,18A1.5,1.5 0 0,0 5,16.5V9.5A1.5,1.5 0 0,0 3.5,8M6,18A1,1 0 0,0 7,19H8V22.5A1.5,1.5 0 0,0 9.5,24A1.5,1.5 0 0,0 11,22.5V19H13V22.5A1.5,1.5 0 0,0 14.5,24A1.5,1.5 0 0,0 16,22.5V19H17A1,1 0 0,0 18,18V8H6V18Z"
+                Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Foreground}" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBlock
+            Margin="8 0 0 0">
+          Android
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </TreeViewItem.Header>
+                                        </TreeViewItem>
+                                        <TreeViewItem
+      Header="iOS" />
+                                        <TreeViewItem>
+                                            <TreeViewItem.Header>
+                                                <StackPanel
+          Orientation="Horizontal">
+                                                    <Viewbox
+            Width="16"
+            Height="16">
+                                                        <Canvas
+              Width="24"
+              Height="24">
+                                                            <Path
+                Data="M13.18,14.5C12.53,15.26 11.47,15.26 10.82,14.5L7.44,10.5C7.16,11.28 7,12.12 7,13C7,14.67 7.57,16.18 8.5,17.27C10,17.37 11.29,17.96 11.78,19C11.85,19 11.93,19 12.22,19C12.71,18 13.95,17.44 15.46,17.33C16.41,16.24 17,14.7 17,13C17,12.12 16.84,11.28 16.56,10.5L13.18,14.5M20,20.75C20,21.3 19.3,22 18.75,22H13.25C12.7,22 12,21.3 12,20.75C12,21.3 11.3,22 10.75,22H5.25C4.7,22 4,21.3 4,20.75C4,19.45 4.94,18.31 6.3,17.65C5.5,16.34 5,14.73 5,13C4,15 2.7,15.56 2.09,15C1.5,14.44 1.79,12.83 3.1,11.41C3.84,10.6 5,9.62 5.81,9.25C6.13,8.56 6.54,7.93 7,7.38V7A5,5 0 0,1 12,2A5,5 0 0,1 17,7V7.38C17.46,7.93 17.87,8.56 18.19,9.25C19,9.62 20.16,10.6 20.9,11.41C22.21,12.83 22.5,14.44 21.91,15C21.3,15.56 20,15 19,13C19,14.75 18.5,16.37 17.67,17.69C19.05,18.33 20,19.44 20,20.75M9.88,9C9.46,9.5 9.46,10.27 9.88,10.75L11.13,12.25C11.54,12.73 12.21,12.73 12.63,12.25L13.88,10.75C14.29,10.27 14.29,9.5 13.88,9H9.88M10,5.25C9.45,5.25 9,5.9 9,7C9,8.1 9.45,8.75 10,8.75C10.55,8.75 11,8.1 11,7C11,5.9 10.55,5.25 10,5.25M14,5.25C13.45,5.25 13,5.9 13,7C13,8.1 13.45,8.75 14,8.75C14.55,8.75 15,8.1 15,7C15,5.9 14.55,5.25 14,5.25Z"
+                Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Foreground}" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBlock
+            Margin="8 0 0 0">
+          Linux
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </TreeViewItem.Header>
+                                        </TreeViewItem>
+                                        <TreeViewItem>
+                                            <TreeViewItem.Header>
+                                                <StackPanel
+          Orientation="Horizontal">
+                                                    <Viewbox
+            Width="16"
+            Height="16">
+                                                        <Canvas
+              Width="24"
+              Height="24">
+                                                            <Path
+                Data="M3,12V6.75L9,5.43V11.91L3,12M20,3V11.75L10,11.9V5.21L20,3M3,13L9,13.09V19.9L3,18.75V13M20,13.25V22L10,20.09V13.1L20,13.25Z"
+                Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Foreground}" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBlock
+            Margin="8 0 0 0">
+          Windows
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </TreeViewItem.Header>
+                                        </TreeViewItem>
+                                    </TreeViewItem>
+                                    <TreeViewItem
+    Header="Empty" />
+                                </TreeView>
+
+                            </StackPanel>
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
+                <!--// Правая панель Основная Test Plan //-->
+                <Grid >
+                    <Border Name="TestPlan" Background="White" CornerRadius="5" Margin="2 4 4 4" Visibility="Visible">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="542*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" CornerRadius="5 5 0 0" Background="#FFDCDFED">
+                                <StackPanel HorizontalAlignment="Left" Margin="5,0,0,0">
+                                    <TextBlock Text="Test Plan" Foreground="#FF5C9BFA" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 5" FontFamily="Microsoft YaHei UI"/>
+                                </StackPanel>
+                            </Border>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+                
+            </DockPanel>
+
+
+
         </Grid>
-        
+
         <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="670"/>
-                    <RowDefinition Height="45"/>
-                </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="670*"/>
+                <RowDefinition Height="45*"/>
+            </Grid.RowDefinitions>
 
-                <Border Grid.Row="1" CornerRadius="5" Background="#FF2D2D30" BorderBrush="Transparent"   />
-           
+            <Border  Grid.Row="1" CornerRadius="5" Background="#FF2D2D30" BorderBrush="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Border  Grid.Row="0" CornerRadius="5" Background="#FFDCDFED" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="1" BorderBrush="Black"  />
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="AddNewPanelSteps" Margin="4 0 0 0" Style="{StaticResource PanelExitMiniMaxiBtn}" Click="AddNewPanelSteps_Click" >
+
+                            <TextBlock Text=" Add New "/>
+                        </Button>
+                        <Button Name="AddNewPanelPlan" Margin="4 0 0 0" Style="{StaticResource PanelExitMiniMaxiBtn}" Click="AddNewPanelPlan_Click" >
+
+                            <TextBlock Text=" Add New "/>
+                        </Button>
+                        <Button Name="AddNewPanel1111111Plan" Margin="4 0 0 0" Style="{StaticResource PanelExitMiniMaxiBtn}" >
+
+                            <TextBlock Text=" Add New "/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
         </Grid>
+
     </Grid>
 </Window>
