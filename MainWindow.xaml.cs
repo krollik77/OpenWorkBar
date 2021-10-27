@@ -65,10 +65,10 @@ namespace OpenWorkBar
         //скрывает панель TestPlan
         private void AddNewPanelPlan_Click(object sender, RoutedEventArgs e)
         {
-            if (TestPlan.Visibility == Visibility.Hidden)
+            if (TestPlan.Visibility == Visibility.Collapsed)
                 TestPlan.Visibility = Visibility.Visible;
             else
-                TestPlan.Visibility = Visibility.Hidden;
+                TestPlan.Visibility = Visibility.Collapsed;
         }
 
 
