@@ -55,12 +55,12 @@ namespace OpenWorkBar
 
         }
         //скрывает панель TestSteps
-        private void AddNewPanelSteps_Click(object sender, RoutedEventArgs e)
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if (TestSteps.Visibility == Visibility.Hidden)
+            if (TestSteps.Visibility == Visibility.Collapsed)
                 TestSteps.Visibility = Visibility.Visible;
             else
-                TestSteps.Visibility = Visibility.Hidden;
+                TestSteps.Visibility = Visibility.Collapsed;
         }
         //скрывает панель TestPlan
         private void AddNewPanelPlan_Click(object sender, RoutedEventArgs e)
@@ -71,7 +71,8 @@ namespace OpenWorkBar
                 TestPlan.Visibility = Visibility.Collapsed;
         }
 
-
+        
+      
     }
 }
     
