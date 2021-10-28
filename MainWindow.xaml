@@ -14,6 +14,55 @@
         WindowStartupLocation="CenterScreen" Background="{x:Null}" Foreground="{x:Null}">
 
     <Window.Resources>
+
+        <!--#region Прозрачный шаблон для МЕНЮ...   -->
+        <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
+            <Border Name="Border" >
+                <Grid>
+                    <ContentPresenter 
+                             Margin="6,3,6,3" 
+                             ContentSource="Header"
+                             RecognizesAccessKey="True" />
+                    <!--настраивается выпадающий список фон Popup-->
+                    <Popup 
+                              Name="Popup"
+                              Placement="Bottom"
+                              IsOpen="{TemplateBinding IsSubmenuOpen}"
+                              AllowsTransparency="True" 
+                              Focusable="False"
+                              PopupAnimation="Fade">
+                        <Border Name="SubmenuBorder"
+                                    SnapsToDevicePixels="True"
+                                    Background="#FFDCDFED"
+                                    >
+                            <StackPanel IsItemsHost="True" 
+                                            KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsSuspendingPopupAnimation" Value="true">
+                    <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
+                </Trigger>
+                <!--настраивается Головной список Меню -->
+                <Trigger Property="IsHighlighted" Value="true">
+                    <Setter TargetName="Border" Property="Background" Value="#FFBCBECC"/>
+                    <Setter TargetName="Border" Property="CornerRadius" Value="3"/>
+                    <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
+                </Trigger>
+                <!--настраивается выпадающий список только область Popup-->
+                <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
+                    <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="10,0,10,10"/>
+                    <Setter TargetName="SubmenuBorder" Property="Padding" Value="10"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="#888888"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <!--#endregion-->
+        
         <!-- Стиль для кнопки внутри ComboBox -->
         <Style x:Key="PanelExitMiniMaxiBtn" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -132,6 +181,8 @@
 
 
 
+
+        <!--#region Второй GRID Меню и Версия -->
         <Grid  >
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
@@ -144,7 +195,7 @@
             <!--// Верcия сборки //-->
             <Grid Grid.Row="2" Height="25" Width="70" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 7 2">
-                    <TextBlock Text=" v. 1.1.1 " 
+                    <TextBlock Text=" v. 1.1.2 " 
                                Foreground="#FF868698" 
                                FontStyle="Italic" 
                                TextDecorations="{x:Null}" 
@@ -153,143 +204,131 @@
                 </StackPanel>
             </Grid>
             <!--// Верcия сборки //-->
+
+            <!--#region     МЕНЮ НАСТРОЕК - ВЫПОДАЮЩЕЕ-->
             <Grid Grid.Row="2" Height="25" Width="auto" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
                 <StackPanel Orientation="Horizontal">
                     <Menu
-                         IsMainMenu="True">
-                        <MenuItem
-                            Header="_File">
-                            <MenuItem
-                                  Header="Save" >
+                         IsMainMenu="True"
+                         Background="#FFDCDFED">
+                        <!--#region _Файл .-->
+                        <MenuItem Header="Файл">
+                            <MenuItem Header="Создать"
+                                      InputGestureText="Ctrl+N">
+
+                            </MenuItem>
+                            <MenuItem Header="Открыть"
+                                      InputGestureText="Ctrl+O">
+
+                            </MenuItem>
+                            <MenuItem Header="Сохранить" >
                                 <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                          Kind="ContentSave" />
+                                    <materialDesign:PackIcon Kind="ContentSave" />
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem
-                                 Header="Save As.." />
-                            <MenuItem
-      Header="Exit"
-      InputGestureText="Ctrl+E">
+                            <MenuItem Header="Сохранить всё" >
                                 <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-          Kind="ExitToApp" />
+                                    <materialDesign:PackIcon Kind="ContentSaveAll" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator />
+
+                            <MenuItem Header="Выбор1"
+                                      IsCheckable="True"
+                                      IsChecked="True" />
+                            <MenuItem Header="Выбор2"
+                                      IsCheckable="True" />
+                            <Separator  />
+
+                            <MenuItem Header="Выход"
+                                      InputGestureText="Alt+F4">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="ExitToApp" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </MenuItem>
+                        <!--#endregion-->
+                        <!--#region _Настройка . -->
+                        <MenuItem
+                            Header="Настройка">
+                            <MenuItem Header="Отменить" >
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="replay" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator />
-                            <MenuItem
-      Header="Excellent"
-      IsCheckable="True"
-      IsChecked="True" />
-                            <MenuItem
-      Header="Rubbish"
-      IsCheckable="True" />
-                            <MenuItem
-      Header="Dig Deeper"
-      InputGestureText="Ctrl+D">
-                                <MenuItem
-        Header="Enlightenment?"
-        IsCheckable="True" />
-                                <MenuItem
-        Header="Disappointment"
-        IsCheckable="True" />
+                            <MenuItem Header="Вырезать.."  
+                                      InputGestureText="Ctrl+X">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="ContentCut" />
+                                </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem
-      Header="Look Deeper"
-      InputGestureText="Ctrl+D">
-                                <MenuItem
-        Header="Plain" />
-                                <MenuItem
-        Header="Ice Cream" />
+                            <MenuItem Header="Копировать.."  
+                                      InputGestureText="Ctrl+C">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="ContentCopy" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Вставить.."  
+                                      InputGestureText="Ctrl+V">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="ContentPaste" />
+                                </MenuItem.Icon>
                             </MenuItem>
                         </MenuItem>
+                        <!--#endregion-->
+                        <!--#region _Инструмент .-->
+                        <MenuItem
+                            Header="Инструмент">
+                            <MenuItem Header="Инструмент1" >
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="replay" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem Header="Инструмент2"  >
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="ContentCut" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Инструмент3"  >
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="ContentCopy" />
+                                </MenuItem.Icon>
+                            </MenuItem>
 
-                        <MenuItem
-                            Header="_Settings">
-                            <MenuItem
-                               Header="_Cut"
-                               Command="Cut">
+                        </MenuItem>
+                        <!--#endregion-->
+                        <!--#region _ Панель . -->
+                        <MenuItem Header="Панель" >
+                            <MenuItem Header="Log"
+                                      IsCheckable="True" />
+                            <MenuItem Header="Test Steps"
+                                      IsCheckable="True"
+                                      IsChecked="True" Click="MenuItem_Click_1" />
+                            <MenuItem Header="Test Steps Settings"
+                                      IsCheckable="True" />
+                            <MenuItem Header="Test Plan"
+                                      IsCheckable="True" />
+                            <MenuItem Header="Test Plan Settings"
+                                      IsCheckable="True" />
+                            <Separator />
+                            <MenuItem Header="Панели по умолчанию">
                                 <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                         Kind="ContentCut" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem
-                             Header="_Copy"
-                             Command="Copy">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                          Kind="ContentCopy" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem
-                             Header="_Paste"
-                               Command="Paste">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                        Kind="ContentPaste" />
+                                    <materialDesign:PackIcon Kind="ContentCopy" />
                                 </MenuItem.Icon>
                             </MenuItem>
                         </MenuItem>
-                        <MenuItem
-                            Header="_Tools">
-                            <MenuItem
-                               Header="_Cut"
-                               Command="Cut">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                         Kind="ContentCut" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem
-                             Header="_Copy"
-                             Command="Copy">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                          Kind="ContentCopy" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem
-                             Header="_Paste"
-                               Command="Paste">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                        Kind="ContentPaste" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
-
-                        <MenuItem
-                            Header="_View">
-                            <MenuItem
-                               Header="_Cut"
-                               Command="Cut">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                         Kind="ContentCut" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem
-                             Header="_Copy"
-                             Command="Copy">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                          Kind="ContentCopy" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem
-                             Header="_File"
-                               Command="Paste">
-                                <MenuItem.Icon>
-                                    <materialDesign:PackIcon
-                                        Kind="ContentPaste" />
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </MenuItem>
+                        <!--#endregion-->
                     </Menu>
                 </StackPanel>
             </Grid>
+            <!--#endregion-->
         </Grid>
+        <!--#endregion-->
+
+
 
         <Grid>
             <Grid.RowDefinitions>
