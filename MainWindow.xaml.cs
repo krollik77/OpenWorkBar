@@ -50,17 +50,22 @@ namespace OpenWorkBar
             else this.WindowState = WindowState.Normal;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
-        //скрывает панель TestSteps
-        private void Add_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             if (TestSteps.Visibility == Visibility.Collapsed)
                 TestSteps.Visibility = Visibility.Visible;
             else
                 TestSteps.Visibility = Visibility.Collapsed;
+        }
+
+        //скрывает панель TestSteps
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            if (TestSteps.Visibility == Visibility.Collapsed)
+                TestSteps.Visibility = Visibility.Visible;
+            
+                
         }
         //скрывает панель TestPlan
         private void AddNewPanelPlan_Click(object sender, RoutedEventArgs e)
